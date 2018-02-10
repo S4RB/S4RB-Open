@@ -1,0 +1,30 @@
+<section class="section container"
+         id="complaints-reporter-section">
+
+    <div class="row title-container">
+        <div class="col-12">
+            <h1 class="title">Complaints per millions units</h1>
+        </div>
+    </div>
+
+    <div class="row content-container">
+        <div class="col-12">
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>CMPU</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let stat of stats">
+                        <td>{{ stat.period }}</td>
+                        <td>{{ stat.value }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<table
