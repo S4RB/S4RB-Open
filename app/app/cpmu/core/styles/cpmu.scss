@@ -1,0 +1,38 @@
+#cpmu-data {
+  overflow-y: auto;
+  max-height: 800px;
+
+  table {
+    margin: auto;
+
+    tr {
+      text-align: center;
+
+      * {
+        border: 1px solid darkgrey;
+      }
+
+      &:nth-child(even) {
+        background-color: rgba(211, 211, 211, 0.5);
+      }
+
+      th {
+        max-width: 200px;
+
+        &.cpmu-month {
+          width: 200px;
+        }
+
+        &.cpmu-quarter,
+        &.cpmu-year,
+        &.cpmu-cpmu {
+          width: 100px;
+        }
+      }
+
+      td {
+        padding: 5px;
+      }
+    }
+  }
+}
