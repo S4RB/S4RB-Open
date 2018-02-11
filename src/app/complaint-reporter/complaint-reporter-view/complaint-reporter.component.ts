@@ -8,16 +8,25 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ComplaintReporterComponent implements OnInit {
 
-    private complaints: any;
-    private stats: any[];
+    public complaints: any;
+    public years: any[];
+    public periods: any[];
+    public period: string;
+    public error = false;
 
     constructor(private route: ActivatedRoute) { }
 
     ngOnInit() {
         this.route.data
-            .subscribe((data: { complaints: any }) => {
-                this.complaints = data.complaints;
-                console.log(this.complaints);
+            .subscribe((data: { complaints: any}) => {
+                if (data.complaints) {
+                    this.complaints = data.complaints;
+                    this.years = Object.keys(this.complaints.month);
+                    this.periods = Object.keys(this.complaints);
+                    this.period = this.periods[0];
+                } else {
+                    this.error = true;
+                }
             });
     }
 

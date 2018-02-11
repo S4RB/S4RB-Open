@@ -1,6 +1,6 @@
 {
-  "/api/complaints": {
-    "target": "http://localhost:3000",
+  "/api/CPMU": {
+    "target": "http://localhost:3000/CPMU",
     "secure": false
   }
 }

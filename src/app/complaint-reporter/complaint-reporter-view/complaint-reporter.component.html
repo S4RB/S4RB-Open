@@ -9,22 +9,35 @@
 
     <div class="row content-container">
         <div class="col-12">
-            <table>
+            <p *ngIf="error">Sorry, we've encountered a problem! Try refreshing the page or contact customer support if the problem persits.</p>
+            <div class="table-controls-contianer">
+                <div class="btn-group ml-auto">
+                    <button class="btn btn-secondary"
+                            *ngFor="let p of periods"
+                            [ngClass]="{ 'active': period === p }"
+                            (click)="period = p">{{ p }}</button>
+                </div>
+            </div>
+            <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th></th>
+                        <th>{{ period === 'quarter' ? 'Year' : 'Month' }}</th>
+                        <th *ngIf="period === 'quarter'">Quarter</th>
                         <th>CMPU</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let stat of stats">
-                        <td>{{ stat.period }}</td>
-                        <td>{{ stat.value }}</td>
-                    </tr>
+                    <ng-container *ngFor="let year of years">
+                        <tr *ngFor="let record of complaints[period][year]">
+                            <td *ngIf="period === 'month'">{{ record.Month | date: 'MMM yyyy' }}</td>
+                            <td *ngIf="period === 'quarter'">{{ record.Month | date: 'yyyy' }}</td>
+                            <td *ngIf="period === 'quarter'">{{ record.Quarter }}</td>
+                            <td *ngIf="!record.fake">{{ record.CPMU | number:'1.2-2' }}</td>
+                            <td *ngIf="record.fake">No Value</td>
+                        </tr>
+                    </ng-container>
                 </tbody>
             </table>
         </div>
     </div>
 </section>
-
-<table
