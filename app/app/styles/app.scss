@@ -1,0 +1,16 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300italic);
+
+/********************************************
+ * Varables
+ ********************************************/
+$head-font: 'Open Sans Condensed', sans-serif;
+$main-font: 'Helvetica', sans-serif;
+$main-color: #982425;
+
+/********************************************
+ * Tag overwrites
+ ********************************************/
+*, *:before, *:after{
+  box-sizing: border-box;
+}
+

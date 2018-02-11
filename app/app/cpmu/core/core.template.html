@@ -1,0 +1,27 @@
+<link href="/cpmu/core/styles/cpmu.css" rel="stylesheet" />
+
+<div class="w3-row-padding">
+    <div class="w3-col l6">
+        <div class="title">
+            <h1>Complaints Per Million Units Sold</h1>
+        </div>
+        <div class="group-by">
+            <span>Group By:</span> <a id="group-by-month" href="#!/cpmu">Month</a> | <a id="group-by-quarter" href="#!/cpmu?filter=quarter">Quarter</a>
+        </div>
+    </div>
+</div>
+<div class="w3-row-padding">
+    <div class="w3-col">
+        <h3>{{cpmuTitle}}</h3>
+        <div id="cpmu-data">
+            <ng-switch on="filter">
+                <div ng-switch-when="quarter">
+                    <cpmu-quarter></cpmu-quarter>
+                </div>
+                <div ng-switch-default>
+                    <cpmu-month></cpmu-month>
+                </div>
+            </ng-switch>
+        </div>
+    </div>
+</div>
