@@ -6,12 +6,11 @@
 angular.module('cpmuCore').
     component('cpmuCore', {
         templateUrl: 'cpmu/core/core.template.html',
-        controller: ['$http', '$scope', '$rootScope', '$routeParams', function CpmuCoreController($http, $scope, $rootScope, $routeParams){
-            $rootScope.complaints = [];
+        controller: ['$http', '$scope', '$routeParams', function CpmuCoreController($http, $scope, $routeParams){
 
             $scope.filter = $routeParams.filter;
             $scope.complaints = [];
-            $scope.cpmu_by_month = {};
+            $scope.cpmu_by_month = [];
             $scope.cpmu_by_quarter = [];
             $scope.cpmuTitle = "";
 

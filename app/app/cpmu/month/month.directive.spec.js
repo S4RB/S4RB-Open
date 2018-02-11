@@ -32,7 +32,7 @@ describe('cpmuMonth directive', function(){
 
         scope.$digest();
 
-        expect(scope.cpmu_by_month).toEqual({});
+        expect(scope.cpmu_by_month).toEqual([]);
     }));
 
     it('should create a list of 3 elements', function () {
@@ -44,11 +44,11 @@ describe('cpmuMonth directive', function(){
 
         scope.$digest();
 
-        expect(scope.cpmu_by_month).toEqual({
-            'January 2012': 5.47,
-            'February 2012': 57.66,
-            'March 2012': 12.13
-        });
+        expect(scope.cpmu_by_month).toEqual([
+            {"Date": 'January 2012', "CPMU" : 5.47},
+            {"Date": 'February 2012', "CPMU": 57.66},
+            {"Date": 'March 2012', "CPMU": 12.13}
+        ]);
     });
 
     it('should map any missing months to "No Data"', function(){
@@ -69,24 +69,24 @@ describe('cpmuMonth directive', function(){
 
         scope.$digest();
 
-        expect(scope.cpmu_by_month).toEqual({
-            "January 2012":      5.47,
-            "February 2012":    57.66,
-            "March 2012":       12.13,
-            "April 2012":       "No Data",
-            "May 2012":         "No Data",
-            "June 2012":        93.68,
-            "July 2012":        57.30,
-            "August 2012":      "No Data",
-            "September 2012":   30.61,
-            "October 2012":      8.53,
-            "November 2012":    10.28,
-            "December 2012":    20.84,
-            "January 2013":     "No Data",
-            "February 2013":    74.53,
-            "March 2013":       59.54,
-            "April 2013":        3.54
+        expect(scope.cpmu_by_month).toEqual([
+            {"Date": "January 2012",    "CPMU": 5.47},
+            {"Date": "February 2012",   "CPMU": 57.66},
+            {"Date": "March 2012",      "CPMU": 12.13},
+            {"Date": "April 2012",      "CPMU": "No Data"},
+            {"Date": "May 2012",        "CPMU": "No Data"},
+            {"Date": "June 2012",       "CPMU": 93.68},
+            {"Date": "July 2012",       "CPMU": 57.30},
+            {"Date": "August 2012",     "CPMU": "No Data"},
+            {"Date": "September 2012",  "CPMU": 30.61},
+            {"Date": "October 2012",    "CPMU": 8.53},
+            {"Date": "November 2012",   "CPMU": 10.28},
+            {"Date": "December 2012",   "CPMU": 20.84},
+            {"Date": "January 2013",    "CPMU": "No Data"},
+            {"Date": "February 2013",   "CPMU": 74.53},
+            {"Date": "March 2013",      "CPMU": 59.54},
+            {"Date": "April 2013",      "CPMU": 3.54}
 
-        });
+        ]);
     })
 });

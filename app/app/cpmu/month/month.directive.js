@@ -19,15 +19,15 @@ angular.module('cpmuCore').
                             </tr>\
                         </thead>\
                         <tbody>\
-                            <tr ng-repeat="(date, cpmu) in cpmu_by_month">\
-                                <td>{{date}}</td>\
-                                <td>{{cpmu}}</td>\
+                            <tr ng-repeat="data in cpmu_by_month">\
+                                <td>{{data.Date}}</td>\
+                                <td>{{data.CPMU}}</td>\
                             </tr>\
                         </tbody>\
                     </table>\
                 </div>',
             link: function(scope){
-                scope.cpmu_by_month = {};
+                scope.cpmu_by_month = [];
                 scope.$parent.cpmuTitle = "CPMU by Month";
 
                 scope.$watch('complaints', function(){
@@ -62,14 +62,14 @@ angular.module('cpmuCore').
                                 date_str = months[last_month % 12] + " " + year;
 
                                 // add "No Data" to the complaints list for each month missing
-                                scope.cpmu_by_month[date_str] = "No Data";
+                                scope.cpmu_by_month.push({"Date": date_str, "CPMU": "No Data"});
                             }
 
                             // create the date string for the actual data we're looking at at calculate the cpmu
                             date_str = months[month_int] + " " + year;
                             var cpmu = Number(complaint_data.Complaints / (complaint_data.UnitsSold / 1000000)).toFixed(2);
 
-                            scope.cpmu_by_month[date_str] = Number(cpmu);
+                            scope.cpmu_by_month.push({"Date": date_str, "CPMU": Number(cpmu)});
 
                             // reset last_month and last_year
                             last_month = month_int;
