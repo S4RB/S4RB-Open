@@ -32,8 +32,8 @@ describe('ComplaintReporterComponent', () => {
     }
 
     const resolvedData = {
-        month: { 2012: createPeriodReports(2012, 12) },
-        quarter: { 2012: createPeriodReports(2012, 4) }
+        month: createPeriodReports(2012, 12),
+        quarter: createPeriodReports(2012, 4)
     };
 
     beforeEach(async(() => {
@@ -70,10 +70,6 @@ describe('ComplaintReporterComponent', () => {
 
     it('should have complaints', () => {
         expect(component.complaints).toEqual(resolvedData);
-    });
-
-    it('should have an array of years from the report', () => {
-        expect(component.years).toEqual(Object.keys(resolvedData.month));
     });
 
     it('should have an array of periods from the report', () => {

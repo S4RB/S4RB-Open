@@ -9,7 +9,6 @@ import { ActivatedRoute } from '@angular/router';
 export class ComplaintReporterComponent implements OnInit {
 
     public complaints: any;
-    public years: any[];
     public periods: any[];
     public period: string;
     public error = false;
@@ -21,7 +20,6 @@ export class ComplaintReporterComponent implements OnInit {
             .subscribe((data: { complaints: any}) => {
                 if (data.complaints) {
                     this.complaints = data.complaints;
-                    this.years = Object.keys(this.complaints.month);
                     this.periods = Object.keys(this.complaints);
                     this.period = this.periods[0];
                 } else {

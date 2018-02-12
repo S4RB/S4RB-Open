@@ -21,21 +21,19 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>{{ period === 'quarter' ? 'Year' : 'Month' }}</th>
-                        <th *ngIf="period === 'quarter'">Quarter</th>
+                        <th>{{ period !== 'month' ? 'Year' : 'Month' }}</th>
+                        <th *ngIf="period !== 'month'">{{ period }}</th>
                         <th>CMPU</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <ng-container *ngFor="let year of years">
-                        <tr *ngFor="let record of complaints[period][year]">
-                            <td *ngIf="period === 'month'">{{ record.Month | date: 'MMM yyyy' }}</td>
-                            <td *ngIf="period === 'quarter'">{{ record.Month | date: 'yyyy' }}</td>
-                            <td *ngIf="period === 'quarter'">{{ record.Quarter }}</td>
-                            <td *ngIf="!record.fake">{{ record.CPMU | number:'1.2-2' }}</td>
-                            <td *ngIf="record.fake">No Value</td>
-                        </tr>
-                    </ng-container>
+                    <tr *ngFor="let record of complaints[period]">
+                        <td *ngIf="period === 'month'">{{ record.Month | date: 'MMM yyyy' }}</td>
+                        <td *ngIf="period === 'quarter'">{{ record.Month | date: 'yyyy' }}</td>
+                        <td *ngIf="period === 'quarter'">{{ record.Quarter }}</td>
+                        <td *ngIf="!record.fake">{{ record.CPMU | number:'1.2-2' }}</td>
+                        <td *ngIf="record.fake">No Value</td>
+                    </tr>
                 </tbody>
             </table>
         </div>

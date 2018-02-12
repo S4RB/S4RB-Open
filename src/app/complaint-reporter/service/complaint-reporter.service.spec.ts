@@ -11,38 +11,50 @@ describe('ComplaintReporterService', () => {
     let injector: TestBed,
         service: ComplaintReporterService,
         mockBackend,
-        lastConnection;
+        lastConnection,
+        spy;
 
-    const date = new Date(2012, 6),
-        oldReport = {
-            Quarter: Math.ceil(date.getMonth() / 3) + 1,
-            Month: date,
-            Complaints: 27,
-            UnitsSold: 4932508
-        },
-        updatedReport: Report = {
-            Quarter: Math.ceil(date.getMonth() / 3) + 1,
-            Month: date,
+    const year = 2012,
+          month = 4,
+          date = new Date(year, month);
+
+    function getReport(yr, mth) {
+        const d = new Date(yr, mth);
+
+        return {
+            Quarter: Math.floor(d.getMonth() / 3) + 1,
+            Month: d,
             Complaints: 27,
             UnitsSold: 4932508,
-            month: date.getMonth(),
-            year: date.getFullYear(),
+            period: 'month',
+            month: d.getMonth(),
+            year: d.getFullYear(),
             fake: false,
             CPMU: 5.473888739764841
-        },
-        fakeReport: Report = {
-            Quarter: Math.ceil(date.getMonth() / 3) + 1,
-            Month: date,
-            Complaints: 0,
-            UnitsSold: 0,
-            month: date.getMonth(),
-            year: date.getFullYear(),
-            fake: true,
-            CPMU: 0
-        },
-        reports = [ oldReport ],
-        updatedReports = [ updatedReport ],
-        filedReports = { quarter: { 2012: oldReport }, month: { 2012: oldReport } };
+        };
+    }
+
+    function createPeriodReports(yr, period) {
+        const values = [];
+
+        for (let i = 0; i < period; i++) {
+            values.push(getReport(yr, i));
+        }
+        return values;
+    }
+
+    const resolvedData = {
+        month: createPeriodReports(year, 12),
+        quarter: createPeriodReports(year, month)
+    },
+    oldReport = {
+        Quarter: Math.floor(month / 3) + 1,
+        Month: date,
+        Complaints: 27,
+        UnitsSold: 4932508
+    },
+    updatedReport = getReport(year, month),
+    reports = createPeriodReports(2012, 3);
 
     beforeEach( () => {
         TestBed.configureTestingModule({
@@ -63,6 +75,7 @@ describe('ComplaintReporterService', () => {
         service = injector.get(ComplaintReporterService);
         mockBackend = injector.get(ConnectionBackend) as MockBackend;
         mockBackend.connections.subscribe((connection: any) => lastConnection = connection);
+        spy = spyOn(service, 'processReports').and.returnValue(Observable.of(resolvedData));
     });
 
     it('should be created', () => {
@@ -71,8 +84,6 @@ describe('ComplaintReporterService', () => {
 
     describe('function: resolve', () => {
         it('should return an Observable<any>', fakeAsync(() => {
-            const mockResponse = reports,
-                  spy = spyOn(service, 'fileReports');
             let result: any;
 
             service.resolve().subscribe(res => {
@@ -80,18 +91,18 @@ describe('ComplaintReporterService', () => {
             });
 
             lastConnection.mockRespond(new Response(new ResponseOptions({
-                body: mockResponse,
+                body: resolvedData,
             })));
 
             tick();
-            expect(service.fileReports).toHaveBeenCalledWith(mockResponse);
+            expect(service.processReports).toHaveBeenCalledWith(resolvedData);
         }));
     });
 
-    // describe('function: fileReports', () => {
+    // describe('function: processReports', () => {
     //     it('should call setupReport with report', () => {
     //         const spy = spyOn(service, 'setupReport').and.returnValue(Observable.of(updatedReport));
-    //         service.fileReports(reports);
+    //         service.processReports(reports);
     //         expect(service.setupReport).toHaveBeenCalledWith(reports[0]);
     //     });
     // });
@@ -103,59 +114,13 @@ describe('ComplaintReporterService', () => {
         });
     });
 
-    describe('function: addYearToFiledReports', () => {
-        it('should add a year to the filedReports', () => {
-            service.fileReports(reports);
-            const year = 2012;
-            service.addYearToFiledReports(year);
-            const years = Object.keys(service.filedReports.month);
-            expect(Number(years[0])).toEqual(year);
-        });
-    });
-
-    describe('function: addReportToFiledReports', () => {
-        it('should add a report under the month and year of the report into the filedReports', () => {
-            service.fileReports(reports);
-            service.addYearToFiledReports(updatedReport.year);
-            service.addReportToFiledReports(updatedReport);
-            const monthReport = service.filedReports['month'][updatedReport.year][updatedReport.month];
-            expect(monthReport).toEqual(updatedReport);
-        });
-        it('should add a report under the quarter and year of the report into the filedReports', () => {
-            service.fileReports(reports);
-            service.addYearToFiledReports(updatedReport.year);
-            service.addReportToFiledReports(updatedReport);
-            const monthReport = service.filedReports['quarter'][updatedReport.year][updatedReport.Quarter - 1];
-            expect(monthReport[0]).toEqual(updatedReport);
-        });
-    });
-
-    describe('function: addMissingReports', () => {
-        it('should add a report for each month missing one', () => {
-            service.fileReports(reports);
-            service.addYearToFiledReports(updatedReport.year);
-            service.addReportToFiledReports(updatedReport);
-            service.addMissingReports(updatedReport.year);
-            const monthReportsLength = service.filedReports['month'][updatedReport.year].length;
-            expect(monthReportsLength).toEqual(12);
-        });
-    });
-
-    describe('function: createQuarterReports', () => {
-        it('should create 4 reports for the quarter', () => {
-            service.fileReports(reports);
-            service.addYearToFiledReports(updatedReport.year);
-            service.addReportToFiledReports(updatedReport);
-            service.createQuarterReports(updatedReport.year);
-            const quarterReportsLength = service.filedReports['quarter'][updatedReport.year].length;
-            expect(quarterReportsLength).toEqual(4);
-        });
-    });
-
     describe('function: createReport', () => {
         it('should create a report object', () => {
-            const report = service.createReport(updatedReport.year, updatedReport.month, true);
-            expect(report).toEqual(fakeReport);
+            const report = service.createReport(updatedReport.year, updatedReport.month, 'month', false);
+            updatedReport.Complaints = 0;
+            updatedReport.UnitsSold = 0;
+            updatedReport.CPMU = 0;
+            expect(report).toEqual(updatedReport);
         });
     });
 
@@ -164,5 +129,39 @@ describe('ComplaintReporterService', () => {
             const CPMU = service.calculateCPMU(updatedReport);
             expect(CPMU).toEqual(updatedReport.CPMU);
         });
+
+        it('should return zero if no complaints or sales', () => {
+            updatedReport.Complaints = updatedReport.UnitsSold = 0;
+            const CPMU = service.calculateCPMU(updatedReport);
+            expect(CPMU).toEqual(0);
+        });
     });
+
+    describe('function: addMissingReports', () => {
+        it('should add a report for each month missing one', () => {
+            const years = [year],
+                  missingReports = service.addMissingReports(years, [updatedReport]);
+            expect(missingReports.length).toEqual(11);
+        });
+    });
+
+    describe('function: createPeriodReports', () => {
+        it('should create period reports', () => {
+            const period = { name: 'quarter', months: 3 },
+                  periodReport = service.createPeriodReports(reports, period);
+            let CPMU = 0,
+                complaints = 0,
+                unitsSold = 0;
+
+            for (let i = 0; i < reports.length; i++) {
+                complaints += reports[i].Complaints;
+                unitsSold += reports[i].UnitsSold;
+            }
+            CPMU = complaints / (unitsSold / 1000000);
+            expect(periodReport[0].Complaints).toEqual(complaints);
+            expect(periodReport[0].UnitsSold).toEqual(unitsSold);
+            expect(periodReport[0].CPMU).toEqual(CPMU);
+        });
+    });
+
 });

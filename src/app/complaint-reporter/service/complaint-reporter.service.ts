@@ -9,91 +9,66 @@ import 'rxjs/add/operator/catch';
 export class ComplaintReporterService {
 
     public filedReports: any;
+    public periods: Period[] = [
+        { name: 'quarter', months: 3 }
+    ];
 
     constructor(private http: Http) { }
 
     resolve(): Observable<any> {
         return this.http.get('api/CPMU')
-           .map(res => this.fileReports(res.json()))
-           .catch(err => {
-               console.log('Error getting complaints', err);
-               return err;
-           });
+                   .map(res => this.processReports(res.json()))
+                   .catch(err => {
+                       console.log('Error getting complaints', err);
+                       return err;
+                   });
     }
 
-    fileReports(reports: any[]): any {
-        this.filedReports = { month: {}, quarter: {} };
+    processReports(reports) {
+        const folder = {},
+              years = [];
+
+        // Setup report
         reports.forEach(report => {
-            // Add properties to the report
             report = this.setupReport(report);
-
-            // If year of report isn't in filedReports, add it in
-            if (!this.filedReports['month'][report.year]) {
-                this.addYearToFiledReports(report.year);
-            }
-            // Add report into filedReports
-            this.addReportToFiledReports(report);
+            if (!years.includes(report.year)) { years.push(report.year); }
         });
 
-        // For each year, add missing resports & calculate quarter reports
-        Object.keys(this.filedReports['month']).forEach(yr => {
-            this.addMissingReports(Number(yr));
-            this.createQuarterReports(Number(yr));
+        // Add missing reports
+        reports = reports.concat(this.addMissingReports(years, reports));
+
+        // Add month reports to folder
+        folder['month'] = reports = reports.sort((a, b) =>  a.Month - b.Month);
+
+        // Create & add period reports to folder
+        this.periods.forEach(period => {
+            folder[period.name] = this.createPeriodReports(reports, period);
+            folder[period.name].sort((a, b) =>  a.Month - b.Month);
         });
-        return this.filedReports;
+
+        return folder;
     }
 
     setupReport(report: any): Report {
-        const reportDate = new Date(report.Month);
-
-        report.month = reportDate.getMonth();
-        report.year = reportDate.getFullYear();
+        const date = new Date(report.Month);
+        report.Month = date;
+        report.year = date.getFullYear();
+        report.month = date.getMonth();
+        report.period = 'month';
         report.fake = false;
         report.CPMU = this.calculateCPMU(report);
         return report;
     }
 
-    addYearToFiledReports(year: number): void {
-        this.filedReports['month'][year] = new Array(12);
-        this.filedReports['quarter'][year] = [[], [], [], []];
-    }
-
-    addReportToFiledReports(report: Report): void {
-        this.filedReports['month'][report.year][report.month] = report;
-        this.filedReports['quarter'][report.year][report.Quarter - 1].push(report);
-    }
-
-    addMissingReports(year: number): void {
-        for (let month = 0; month < 12; month++) {
-            if (!this.filedReports['month'][year][month]) {
-                this.filedReports['month'][year][month] = this.createReport(year, month, true);
-            }
-        }
-    }
-
-    createQuarterReports(year: number): void {
-        this.filedReports['quarter'][year].forEach((quarter, index) => {
-            const qReport = this.createReport(year, index * 3, !quarter.length);
-
-            if (quarter.length) {
-                quarter.forEach(report => {
-                    qReport.Complaints += report.Complaints;
-                    qReport.UnitsSold += report.UnitsSold;
-                });
-                qReport.CPMU = this.calculateCPMU(qReport);
-            }
-            this.filedReports['quarter'][year][index] = qReport;
-        });
-    }
-
-    createReport(year: number, month: number, fake: boolean): Report {
+    createReport(year: number, month: number, period: string, fake: boolean): Report {
         const date = new Date(year, month);
 
         return {
-            Quarter: Math.ceil(month / 3) + 1,
+            Quarter: Math.floor(month / 3) + 1,
             Month: date,
-            year: date.getFullYear(),
-            month: date.getMonth(),
+            year: year,
+            month: month,
+            period: period,
             fake: fake,
             UnitsSold: 0,
             Complaints: 0,
@@ -102,7 +77,45 @@ export class ComplaintReporterService {
     }
 
     calculateCPMU(report: Report): number {
-        return report.Complaints / (report.UnitsSold / 1000000);
+        return (report.Complaints === 0 && report.UnitsSold === 0) ? 0 :
+                            report.Complaints / (report.UnitsSold / 1000000);
+    }
+
+    addMissingReports(years: number[], reports: Report[]): Report[] {
+        const missingReports = [];
+        years.forEach(year => {
+            for (let month = 0; month < 12; month++) {
+                const monthReport = reports.find(report => report.year === year && report.month === month);
+
+                if (!monthReport) {
+                    missingReports.push(this.createReport(year, month, 'month', true));
+                }
+            }
+        });
+        return missingReports;
+    }
+
+    createPeriodReports(reports: Report[], period: Period): Report[] {
+        const allPeriodReports = [];
+        let periodReport;
+
+        for (let i = 0; i < reports.length; i++) {
+            // Create new report for period
+            if (i % period.months === 0) {
+                periodReport = this.createReport(reports[i].year, reports[i].month, period.name, false);
+            }
+
+            periodReport.Complaints += reports[i].Complaints;
+            periodReport.UnitsSold += reports[i].UnitsSold;
+
+            // If last month of period, calc CPMU and add to allPeriodReports
+            if (i % period.months === period.months - 1) {
+                periodReport.CPMU = this.calculateCPMU(periodReport);
+                if (periodReport.CPMU === 0) { periodReport.fake = true; }
+                allPeriodReports.push(periodReport);
+            }
+        }
+        return allPeriodReports;
     }
 
 }
@@ -112,9 +125,15 @@ export interface Report {
     Month: Date;
     year: number;
     month: number;
+    period: string;
     fake: boolean;
     UnitsSold: number;
     Complaints: number;
     CPMU: number;
+}
+
+export interface Period {
+    name: string;
+    months: number;
 }
 
