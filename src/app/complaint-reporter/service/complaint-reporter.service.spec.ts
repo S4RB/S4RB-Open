@@ -15,13 +15,13 @@ describe('ComplaintReporterService', () => {
 
     const date = new Date(2012, 6),
         oldReport = {
-            Quarter: Math.ceil(date.getMonth() / 3),
+            Quarter: Math.ceil(date.getMonth() / 3) + 1,
             Month: date,
             Complaints: 27,
             UnitsSold: 4932508
         },
         updatedReport: Report = {
-            Quarter: Math.ceil(date.getMonth() / 3),
+            Quarter: Math.ceil(date.getMonth() / 3) + 1,
             Month: date,
             Complaints: 27,
             UnitsSold: 4932508,
@@ -31,7 +31,7 @@ describe('ComplaintReporterService', () => {
             CPMU: 5.473888739764841
         },
         fakeReport: Report = {
-            Quarter: Math.ceil(date.getMonth() / 3),
+            Quarter: Math.ceil(date.getMonth() / 3) + 1,
             Month: date,
             Complaints: 0,
             UnitsSold: 0,
@@ -42,7 +42,7 @@ describe('ComplaintReporterService', () => {
         },
         reports = [ oldReport ],
         updatedReports = [ updatedReport ],
-        formatReport = { quarter: { 2012: oldReport }, month: { 2012: oldReport } };
+        filedReports = { quarter: { 2012: oldReport }, month: { 2012: oldReport } };
 
     beforeEach( () => {
         TestBed.configureTestingModule({
@@ -72,7 +72,7 @@ describe('ComplaintReporterService', () => {
     describe('function: resolve', () => {
         it('should return an Observable<any>', fakeAsync(() => {
             const mockResponse = reports,
-                  spy = spyOn(service, 'formatData');
+                  spy = spyOn(service, 'fileReports');
             let result: any;
 
             service.resolve().subscribe(res => {
@@ -84,14 +84,14 @@ describe('ComplaintReporterService', () => {
             })));
 
             tick();
-            expect(service.formatData).toHaveBeenCalledWith(mockResponse);
+            expect(service.fileReports).toHaveBeenCalledWith(mockResponse);
         }));
     });
 
-    // describe('function: formatData', () => {
+    // describe('function: fileReports', () => {
     //     it('should call setupReport with report', () => {
     //         const spy = spyOn(service, 'setupReport').and.returnValue(Observable.of(updatedReport));
-    //         service.formatData(reports);
+    //         service.fileReports(reports);
     //         expect(service.setupReport).toHaveBeenCalledWith(reports[0]);
     //     });
     // });
@@ -103,51 +103,51 @@ describe('ComplaintReporterService', () => {
         });
     });
 
-    describe('function: addYearToFormatReport', () => {
-        it('should add a year to the formatReport', () => {
-            service.formatData(reports);
+    describe('function: addYearToFiledReports', () => {
+        it('should add a year to the filedReports', () => {
+            service.fileReports(reports);
             const year = 2012;
-            service.addYearToFormatReport(year);
-            const years = Object.keys(service.formatReport.month);
+            service.addYearToFiledReports(year);
+            const years = Object.keys(service.filedReports.month);
             expect(Number(years[0])).toEqual(year);
         });
     });
 
-    describe('function: addReportToFormatReport', () => {
-        it('should add a report under the month and year of the report into the formatReport', () => {
-            service.formatData(reports);
-            service.addYearToFormatReport(updatedReport.year);
-            service.addReportToFormatReport(updatedReport);
-            const monthReport = service.formatReport['month'][updatedReport.year][updatedReport.month];
+    describe('function: addReportToFiledReports', () => {
+        it('should add a report under the month and year of the report into the filedReports', () => {
+            service.fileReports(reports);
+            service.addYearToFiledReports(updatedReport.year);
+            service.addReportToFiledReports(updatedReport);
+            const monthReport = service.filedReports['month'][updatedReport.year][updatedReport.month];
             expect(monthReport).toEqual(updatedReport);
         });
-        it('should add a report under the quarter and year of the report into the formatReport', () => {
-            service.formatData(reports);
-            service.addYearToFormatReport(updatedReport.year);
-            service.addReportToFormatReport(updatedReport);
-            const monthReport = service.formatReport['quarter'][updatedReport.year][updatedReport.Quarter - 1];
+        it('should add a report under the quarter and year of the report into the filedReports', () => {
+            service.fileReports(reports);
+            service.addYearToFiledReports(updatedReport.year);
+            service.addReportToFiledReports(updatedReport);
+            const monthReport = service.filedReports['quarter'][updatedReport.year][updatedReport.Quarter - 1];
             expect(monthReport[0]).toEqual(updatedReport);
         });
     });
 
     describe('function: addMissingReports', () => {
         it('should add a report for each month missing one', () => {
-            service.formatData(reports);
-            service.addYearToFormatReport(updatedReport.year);
-            service.addReportToFormatReport(updatedReport);
+            service.fileReports(reports);
+            service.addYearToFiledReports(updatedReport.year);
+            service.addReportToFiledReports(updatedReport);
             service.addMissingReports(updatedReport.year);
-            const monthReportsLength = service.formatReport['month'][updatedReport.year].length;
+            const monthReportsLength = service.filedReports['month'][updatedReport.year].length;
             expect(monthReportsLength).toEqual(12);
         });
     });
 
     describe('function: createQuarterReports', () => {
         it('should create 4 reports for the quarter', () => {
-            service.formatData(reports);
-            service.addYearToFormatReport(updatedReport.year);
-            service.addReportToFormatReport(updatedReport);
+            service.fileReports(reports);
+            service.addYearToFiledReports(updatedReport.year);
+            service.addReportToFiledReports(updatedReport);
             service.createQuarterReports(updatedReport.year);
-            const quarterReportsLength = service.formatReport['quarter'][updatedReport.year].length;
+            const quarterReportsLength = service.filedReports['quarter'][updatedReport.year].length;
             expect(quarterReportsLength).toEqual(4);
         });
     });

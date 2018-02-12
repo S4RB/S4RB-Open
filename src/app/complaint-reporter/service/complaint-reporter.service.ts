@@ -8,39 +8,39 @@ import 'rxjs/add/operator/catch';
 @Injectable()
 export class ComplaintReporterService {
 
-    public formatReport: any;
+    public filedReports: any;
 
     constructor(private http: Http) { }
 
     resolve(): Observable<any> {
         return this.http.get('api/CPMU')
-           .map(res => this.formatData(res.json()))
+           .map(res => this.fileReports(res.json()))
            .catch(err => {
                console.log('Error getting complaints', err);
                return err;
            });
     }
 
-    formatData(reports: any[]): any {
-        this.formatReport = { month: {}, quarter: {} };
+    fileReports(reports: any[]): any {
+        this.filedReports = { month: {}, quarter: {} };
         reports.forEach(report => {
             // Add properties to the report
             report = this.setupReport(report);
 
-            // If year of report isn't in formatReport, add it in
-            if (!this.formatReport['month'][report.year]) {
-                this.addYearToFormatReport(report.year);
+            // If year of report isn't in filedReports, add it in
+            if (!this.filedReports['month'][report.year]) {
+                this.addYearToFiledReports(report.year);
             }
-            // Add report into formatReport
-            this.addReportToFormatReport(report);
+            // Add report into filedReports
+            this.addReportToFiledReports(report);
         });
 
         // For each year, add missing resports & calculate quarter reports
-        Object.keys(this.formatReport['month']).forEach(yr => {
+        Object.keys(this.filedReports['month']).forEach(yr => {
             this.addMissingReports(Number(yr));
             this.createQuarterReports(Number(yr));
         });
-        return this.formatReport;
+        return this.filedReports;
     }
 
     setupReport(report: any): Report {
@@ -53,28 +53,27 @@ export class ComplaintReporterService {
         return report;
     }
 
-    addYearToFormatReport(year: number): void {
-        this.formatReport['month'][year] = new Array(12);
-        this.formatReport['quarter'][year] = [[], [], [], []];
+    addYearToFiledReports(year: number): void {
+        this.filedReports['month'][year] = new Array(12);
+        this.filedReports['quarter'][year] = [[], [], [], []];
     }
 
-    addReportToFormatReport(report: Report): void {
-        this.formatReport['month'][report.year][report.month] = report;
-        this.formatReport['quarter'][report.year][report.Quarter - 1].push(report);
+    addReportToFiledReports(report: Report): void {
+        this.filedReports['month'][report.year][report.month] = report;
+        this.filedReports['quarter'][report.year][report.Quarter - 1].push(report);
     }
 
     addMissingReports(year: number): void {
         for (let month = 0; month < 12; month++) {
-            if (!this.formatReport['month'][year][month]) {
-                this.formatReport['month'][year][month] = this.createReport(year, month, true);
+            if (!this.filedReports['month'][year][month]) {
+                this.filedReports['month'][year][month] = this.createReport(year, month, true);
             }
         }
     }
 
     createQuarterReports(year: number): void {
-        let quarterCount = 0;
-        this.formatReport['quarter'][year].forEach((quarter, index) => {
-            const qReport = this.createReport(year, quarterCount * 3, !quarter.length);
+        this.filedReports['quarter'][year].forEach((quarter, index) => {
+            const qReport = this.createReport(year, index * 3, !quarter.length);
 
             if (quarter.length) {
                 quarter.forEach(report => {
@@ -83,8 +82,7 @@ export class ComplaintReporterService {
                 });
                 qReport.CPMU = this.calculateCPMU(qReport);
             }
-            this.formatReport['quarter'][year][index] = qReport;
-            quarterCount ++;
+            this.filedReports['quarter'][year][index] = qReport;
         });
     }
 
@@ -92,7 +90,7 @@ export class ComplaintReporterService {
         const date = new Date(year, month);
 
         return {
-            Quarter: Math.ceil(month / 3),
+            Quarter: Math.ceil(month / 3) + 1,
             Month: date,
             year: date.getFullYear(),
             month: date.getMonth(),
