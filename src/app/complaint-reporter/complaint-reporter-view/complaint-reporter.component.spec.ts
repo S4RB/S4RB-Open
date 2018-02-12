@@ -35,7 +35,6 @@ describe('ComplaintReporterComponent', () => {
         month: { 2012: createPeriodReports(2012, 12) },
         quarter: { 2012: createPeriodReports(2012, 4) }
     };
-    console.log(resolvedData);
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
