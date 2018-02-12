@@ -29,8 +29,8 @@
                 <tbody>
                     <tr *ngFor="let record of complaints[period]">
                         <td *ngIf="period === 'month'">{{ record.Month | date: 'MMM yyyy' }}</td>
-                        <td *ngIf="period === 'quarter'">{{ record.Month | date: 'yyyy' }}</td>
-                        <td *ngIf="period === 'quarter'">{{ record.Quarter }}</td>
+                        <td *ngIf="period !== 'month'">{{ record.Month | date: 'yyyy' }}</td>
+                        <td *ngIf="period !== 'month'">{{ record.Quarter }}</td>
                         <td *ngIf="!record.fake">{{ record.CPMU | number:'1.2-2' }}</td>
                         <td *ngIf="record.fake">No Value</td>
                     </tr>

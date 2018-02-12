@@ -8,7 +8,6 @@ import 'rxjs/add/operator/catch';
 @Injectable()
 export class ComplaintReporterService {
 
-    public filedReports: any;
     public periods: Period[] = [
         { name: 'quarter', months: 3 }
     ];
@@ -42,7 +41,7 @@ export class ComplaintReporterService {
 
         // Create & add period reports to folder
         this.periods.forEach(period => {
-            folder[period.name] = this.createPeriodReports(reports, period);
+            folder[period.name] = this.createPeriodReports(reports, period)
             folder[period.name].sort((a, b) =>  a.Month - b.Month);
         });
 
@@ -50,10 +49,9 @@ export class ComplaintReporterService {
     }
 
     setupReport(report: any): Report {
-        const date = new Date(report.Month);
-        report.Month = date;
-        report.year = date.getFullYear();
-        report.month = date.getMonth();
+        report.Month = new Date(report.Month);
+        report.year = report.Month.getFullYear();
+        report.month = report.Month.getMonth();
         report.period = 'month';
         report.fake = false;
         report.CPMU = this.calculateCPMU(report);
@@ -100,15 +98,15 @@ export class ComplaintReporterService {
         let periodReport;
 
         for (let i = 0; i < reports.length; i++) {
-            // Create new report for period
+            // Create periodReport for period
             if (i % period.months === 0) {
                 periodReport = this.createReport(reports[i].year, reports[i].month, period.name, false);
             }
-
+            // Increment properties
             periodReport.Complaints += reports[i].Complaints;
             periodReport.UnitsSold += reports[i].UnitsSold;
 
-            // If last month of period, calc CPMU and add to allPeriodReports
+            // If last month of period, calc CPMU and add periodReport to allPeriodReports
             if (i % period.months === period.months - 1) {
                 periodReport.CPMU = this.calculateCPMU(periodReport);
                 if (periodReport.CPMU === 0) { periodReport.fake = true; }
