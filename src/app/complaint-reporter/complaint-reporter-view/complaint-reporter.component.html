@@ -1,0 +1,41 @@
+<section class="section container"
+         id="complaints-reporter-section">
+
+    <div class="row title-container">
+        <div class="col-12">
+            <h1 class="title">Complaints per millions units</h1>
+        </div>
+    </div>
+
+    <div class="row content-container">
+        <div class="col-12">
+            <p *ngIf="error">Sorry, we've encountered a problem! Try refreshing the page or contact customer support if the problem persits.</p>
+            <div class="table-controls-contianer">
+                <div class="btn-group ml-auto">
+                    <button class="btn btn-secondary"
+                            *ngFor="let p of periods"
+                            [ngClass]="{ 'active': period === p }"
+                            (click)="period = p">{{ p }}</button>
+                </div>
+            </div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>{{ period !== 'month' ? 'Year' : 'Month' }}</th>
+                        <th *ngIf="period !== 'month'">{{ period }}</th>
+                        <th>CMPU</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let record of complaints[period]">
+                        <td *ngIf="period === 'month'">{{ record.Month | date: 'MMM yyyy' }}</td>
+                        <td *ngIf="period !== 'month'">{{ record.Month | date: 'yyyy' }}</td>
+                        <td *ngIf="period !== 'month'">{{ record.Quarter }}</td>
+                        <td *ngIf="!record.fake">{{ record.CPMU | number:'1.2-2' }}</td>
+                        <td *ngIf="record.fake">No Value</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

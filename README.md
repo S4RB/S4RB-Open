@@ -1,3 +1,26 @@
+# S4RBOpen
+
+## To do
+    - Unit tests
+        - Change complaint service spec to use functions to create reports & filed reports
+
+## Install dependencies
+
+Run `npm intall` to install dependencies.
+
+## Backend Server
+
+Run `json-server --watch db.json` to start the back-end.
+
+## Development server
+
+Run `npm run start` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+
+## Running unit tests
+
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+
+
 # Interview Questions #
 
 Imagine you have been tasked by the Account Manager to create a basic reporting application that will allow the account manager to view complaints via a online portal.
@@ -23,11 +46,11 @@ For example:
 
 |Month       | CPMU|
 |---------- | ----------|
-|January 2012|	5.47|
-|February 2012|	57.66|
-|March 2012|	12.13|
-|May 2012|	67.78|
-|June 2012|	93.68|
+|January 2012|  5.47|
+|February 2012| 57.66|
+|March 2012|    12.13|
+|May 2012|  67.78|
+|June 2012| 93.68|
 
 ## 3. Allow the ability for the user to toggle Quarter and Month aggregation
 
@@ -35,8 +58,8 @@ For example:
 
 | Year |Quarter       | CPMU|
 |---------- |---------- | ----------|
-| 2012 |1|	7.19|
-| 2012 |2|	82.69|
+| 2012 |1|  7.19|
+| 2012 |2|  82.69|
 
 
 ## 4. Within the report there are missing months when data are not available, these values should be displayed as "No Value"
@@ -45,11 +68,11 @@ For example:
 
 |Month       | CPMU
 |---------- | ----------|
-|February 2012|	57.66|
-|March 2012|	12.13|
-|April 2012|	No Value |
-|June 2012|	93.68|
-|July 2012|	57.30|
+|February 2012| 57.66|
+|March 2012|    12.13|
+|April 2012|    No Value |
+|June 2012| 93.68|
+|July 2012| 57.30|
 
 ## 5. Add any tests you see fit to cover your code and any key manipulations you have performed
 

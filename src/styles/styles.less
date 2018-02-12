@@ -1,0 +1,92 @@
+@grey: #5c6467;
+@text-color: @grey;
+@heading-color: darken(@grey, 10%);
+
+@font: 'Roboto', sans-serif;
+
+body {
+    color: @text-color;
+    font-family: @font;
+    line-height: 1.5;
+    overflow: auto;
+}
+
+h1, h2, h3 {
+    font-family: @font;
+    color: @heading-color;
+    font-weight: 500;
+}
+
+h4, h5, h6, p, input, textarea {
+    font-family: @font;
+}
+
+h4, h5, h6 {
+    color: @heading-color;
+    margin-bottom: .5rem;
+}
+
+p {
+    color: @text-color;
+    font-size: 1.1rem;
+}
+
+h5 {
+    font-size: 1.1rem;
+}
+
+button.btn {
+    &:focus {
+        outline: none;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+    }
+}
+
+:focus {
+    outline: none;
+}
+
+.vertical-align {
+    display: flex;
+    align-items: center;
+}
+
+.justify-content-center {
+    margin: auto;
+}
+
+.text-left {
+    text-align: left;
+}
+.text-center {
+    text-align: center;
+}
+.text-right {
+    text-align: right;
+}
+
+
+.section {
+    padding: 4.5rem 0;
+
+    .title-container {
+        margin-bottom: 3rem;
+    }
+
+    @media (max-width: 800px) {
+        padding: 2.5rem 0;
+
+        .title-container {
+            margin-bottom: 1.25rem;
+        }
+    }
+
+    @media (max-width: 600px) {
+        padding: 2rem 0;
+
+        .title-container {
+            margin-bottom: 1rem;
+        }
+    }
+}
