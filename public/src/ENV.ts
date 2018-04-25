@@ -8,7 +8,7 @@ interface IENVConf {
 const ENVCONIG: IENVConf = {
     development: {
         APIVersion: 'v1',
-        baseUrl: 'http://localhost:8000/'
+        baseUrl: 'http://localhost:8001/'
     },
     production: {
         APIVersion: 'v1',

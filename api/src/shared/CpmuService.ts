@@ -9,7 +9,38 @@ export default  class CpmuService {
             return []
         }
 
-        return complains
+        const result = [];
+
+        const dateIteratorC = complains
+            .reduce((pre: Complain, cur: Complain) => new Date(pre.Month) > new Date(cur.Month) ? cur : pre );
+        const latestC = complains
+            .reduce((pre: Complain, cur: Complain) => new Date(pre.Month) < new Date(cur.Month) ? cur : pre );
+
+        let dateIterator: Date = new Date(dateIteratorC.Month);
+        const latest: Date     = new Date(latestC.Month);
+
+        result.push(dateIteratorC);
+
+        do {
+            const availableCmpl: (Complain | undefined) = complains.find((c: Complain) => {
+                const cmplDate = new Date(c.Month);
+
+                return dateIterator.getFullYear()  === cmplDate.getFullYear() &&
+                       dateIterator.getMonth() + 1 === cmplDate.getMonth()
+            });
+
+            result.push(availableCmpl || {
+                Month: dateIterator,
+                Quarter: Math.floor((dateIterator.getMonth() + 3) / 3),
+                Complaints: null,
+                UnitsSold: null
+            });
+
+            dateIterator = new Date(dateIterator.setMonth(dateIterator.getMonth() + 1));
+
+        } while (dateIterator < latest);
+
+        return result
             .map((c: Complain) => {
                 let monthString: string;
                 let cmpu: number | string;
@@ -22,10 +53,15 @@ export default  class CpmuService {
                 }
 
                 try {
-                    let compl = +c.Complaints;
-                    let units = +c.UnitsSold / 1e6;
+                    let compl = c.Complaints;
+                    let units = c.UnitsSold;
 
-                    cmpu = compl ? (compl / units).toFixed(2) : 0
+                    cmpu = compl ? (+compl / (+units / 1e6)).toFixed(2) : 0;
+
+                    if(compl === null || units === null) {
+                        cmpu = 'No value';
+                    }
+
                 } catch (e) {
                     cmpu = 'No value';
                 }
@@ -45,8 +81,6 @@ export default  class CpmuService {
 
         const yearQuarterRes = {};
         const results: ComplainQuarterResult[] = [];
-
-        console.log(complains);
 
         complains
             .map((c: Complain) => {
