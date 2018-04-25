@@ -1,0 +1,16 @@
+{
+  "APP_NAME": "S4RB",
+  "Home": "Strona główna",
+  "Logged in as": "Zalogowany jako",
+  "Login": "Zaloguj",
+  "Logout": "Wyloguj",
+  "Version": "Wersja",
+  "Language": "Język",
+  "Languages": {
+    "en-US": "Angielski",
+    "pl": "Polski"
+  },
+  "Complaints per million units": "Skargi na milion jednostek",
+  "Complaints": "Skargi",
+  "Date": "Data"
+}

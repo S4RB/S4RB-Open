@@ -1,0 +1,20 @@
+{
+  "extends": "airbnb-base",
+  "env": {
+    "node": true,
+    "mocha": true
+  },
+  "globals": {
+    "sinon": true,
+    "sinonChai": true,
+    "assert": true
+  },
+  "rules": {
+    "comma-dangle": ["error", "never"],
+    "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
+    "import/no-dynamic-require": 0,
+    "no-plusplus": 0,
+    "linebreak-style": 0,
+    "valid-jsdoc": 2
+  }
+}

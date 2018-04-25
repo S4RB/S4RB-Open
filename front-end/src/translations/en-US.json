@@ -1,0 +1,16 @@
+{
+  "APP_NAME": "S4RB",
+  "Home": "Home",
+  "Logged in as": "Logged in as",
+  "Login": "Login",
+  "Logout": "Logout",
+  "Version": "Version",
+  "Language": "Language",
+  "Languages": {
+    "en-US": "English",
+    "pl": "Polish"
+  },
+  "Complains per million units": "Complains per million units",
+  "Complaints": "Complaints",
+  "Date": "Date"
+}
