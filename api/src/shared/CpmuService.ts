@@ -99,8 +99,8 @@ export default  class CpmuService {
 
                 if(!yearQuarterRes[year].hasOwnProperty(quarter)) {
                     yearQuarterRes[year][quarter] = {
-                        unitsSold:  c.UnitsSold,
-                        complaints: c.Complaints,
+                        unitsSold:  +c.UnitsSold,
+                        complaints: +c.Complaints,
                     }
                 } else {
                     try {
@@ -109,6 +109,8 @@ export default  class CpmuService {
                     } catch (e) { }
                 }
             });
+
+        console.log(yearQuarterRes);
 
         for (let year in yearQuarterRes) {
             for (let quarter in yearQuarterRes[year]) {
