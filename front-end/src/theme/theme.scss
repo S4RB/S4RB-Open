@@ -1,0 +1,11 @@
+@import "./theme-variables";
+
+/*
+ * Global application theme.
+ * Framework overrides and customization goes here.
+ */
+body {
+  background: $gray-100;
+  color: $gray-700;
+}
+

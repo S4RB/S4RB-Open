@@ -1,0 +1,43 @@
+{
+  "name": "s4rb-back-end",
+  "version": "1.0.0",
+  "engines": {
+    "node": ">= 8.x.x",
+    "npm": ">= 5.x.x"
+  },
+  "scripts": {
+    "start": "node src/main.js",
+    "start:watch": "nodemon src/main.js",
+    "build": "node ./scripts/build.js",
+    "lint": "eslint --ext .js src scripts test",
+    "lint-fix": "eslint --ext .js --fix src scripts test",
+    "check-secure": "nsp check --reporter checkstyle",
+    "test": "mocha -w",
+    "test:ci": "npm run lint -s && npm run coverage",
+    "coverage": "istanbul cover node_modules/mocha/bin/_mocha"
+  },
+  "dependencies": {
+    "bluebird": "^3.5.1",
+    "check-engines": "^1.5.0",
+    "csvtojson": "^1.1.9",
+    "express": "^4.16.2",
+    "lodash": "^4.17.4",
+    "morgan": "^1.9.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.17.3",
+    "chai": "^3.5.0",
+    "copy-node-modules": "^1.0.3",
+    "eslint": "^4.18.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.9.0",
+    "istanbul": "^0.4.4",
+    "mocha": "^3.0.2",
+    "ncp": "^2.0.0",
+    "nsp": "^3.2.1",
+    "nsp-formatter-checkstyle": "^1.0.2",
+    "rimraf": "^2.6.2",
+    "sinon": "^1.17.5",
+    "sinon-chai": "^2.8.0"
+  }
+}

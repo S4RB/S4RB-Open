@@ -1,0 +1,5 @@
+src/**/*.spec.js
+--require ./test/common.js
+--recursive
+--bail
+--reporter spec
