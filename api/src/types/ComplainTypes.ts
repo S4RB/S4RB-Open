@@ -1,6 +1,6 @@
 type Complain = {
     Quarter?: string,
-    Month?: Date,
+    Month?: (Date | string),
     Complaints?: string,
     UnitsSold?: string
 }
