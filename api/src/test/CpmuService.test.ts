@@ -22,8 +22,8 @@ const complainCSVJson: Complain[] = [
     }
 ];
 
-describe("Cpmu monthly fill missing month", function(){
-    it("filled", function() {
+describe("Cpmu monthly fill missing month", () =>{
+    it("filled", () => {
         const resultsList: ComplainMonthlyResult[] = CpmuService.sortByMonth(complainCSVJson);
         expect(resultsList).to.be.an('array');
         expect(resultsList.length).to.be.equal(4);
@@ -31,8 +31,8 @@ describe("Cpmu monthly fill missing month", function(){
     });
 });
 
-describe("Cpmu quarterly set quarter", function(){
-    it("as expected", function() {
+describe("Cpmu quarterly set quarter", () => {
+    it("as expected", () => {
         const resultsList: ComplainQuarterResult[] = CpmuService.sortByQuarter(complainCSVJson);
         expect(resultsList).to.be.an('array');
         expect(resultsList[1]).to.deep.include({ quarter: "2" });
