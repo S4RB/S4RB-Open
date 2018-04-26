@@ -41,7 +41,6 @@ class App extends React.Component {
         axios
             .get(url)
             .then(res => {
-                console.log(res.data);
                 this.setState({
                     cpmuJson: res.data,
                     period: period

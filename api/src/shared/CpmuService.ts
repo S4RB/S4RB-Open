@@ -110,8 +110,6 @@ export default  class CpmuService {
                 }
             });
 
-        console.log(yearQuarterRes);
-
         for (let year in yearQuarterRes) {
             for (let quarter in yearQuarterRes[year]) {
                 if(!yearQuarterRes[year].hasOwnProperty(quarter)) continue;
