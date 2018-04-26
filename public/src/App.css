@@ -1,0 +1,22 @@
+.cpmuTable {
+    margin: auto;
+    width: 100%;
+    max-width: 100%;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+.cpmuTable>tbody>tr:nth-of-type(odd) {
+    background-color: #f9f9f9;
+}
+
+.cpmuTable>thead {
+    font-size: 1.5rem;
+}
+
+.cpmuTable>tbody>tr>td {
+    padding: 8px;
+    line-height: 1.42857143;
+    vertical-align: top;
+    border-top: 1px solid #ddd;
+}
