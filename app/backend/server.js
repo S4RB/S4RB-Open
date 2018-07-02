@@ -1,14 +1,14 @@
-var express = require('express');
-var path = require('path');
-var httpProxy = require('http-proxy');
+const express = require('express');
+const path = require('path');
+const httpProxy = require('http-proxy');
 
-var proxy = httpProxy.createProxyServer();
-var app = express();
+const proxy = httpProxy.createProxyServer();
+const app = express();
 
-var isProduction = process.env.NODE_ENV === 'production';
-var host = process.env.APP_HOST || 'localhost';
-var port = isProduction ? 8080 : 3000;
-var publicPath = path.resolve(__dirname, '..', 'public');
+const isProduction = process.env.NODE_ENV === 'production';
+const host = process.env.APP_HOST || 'localhost';
+const port = isProduction ? 8080 : 3000;
+const publicPath = path.resolve(__dirname, '..', 'public');
 
 if (!isProduction) {
   // Any requests to localhost:3000/assets is proxied
@@ -23,10 +23,7 @@ if (!isProduction) {
 app.use(express.static(publicPath));
 
 // place your handlers here
-
-app.get('/*', function(req, res) {
-  res.sendFile(path.join(publicPath, 'index.html'));
-});
+app.use('/', require('./routes'))
 
 // It is important to catch any errors from the proxy or the
 // server will crash. An example of this is connecting to the
