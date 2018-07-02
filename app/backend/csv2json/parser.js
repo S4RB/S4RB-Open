@@ -1,22 +1,21 @@
 const _ = require('lodash');
 
-module.exports = {
-    add: (a, b) => a+b,
-    parse
-}
+module.exports = parse;
 
 function parse(text) {
-    const lines = _.chain(text).replace(/"/g, '').split('\n').value();
+    const lines = _.chain(text).replace(/"/g, '').split(/\n/).value();
     const headers = _.split(lines.shift(), ',');
-    const obj = {};
 
     return _.chain(lines)
             .split(',')
             .chunk(headers.length)
-            .map(assignToIndex)
+            .map(assignToHeaders)
             .value();
 
-    function assignToIndex() {
-
+    function assignToHeaders(a) {
+        return _.reduce(a, (result, value, key) => {
+            result[headers[key]] = value;
+            return result;
+        }, {});
     }
 }

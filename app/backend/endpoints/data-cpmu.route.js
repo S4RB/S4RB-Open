@@ -1,10 +1,9 @@
-const fs = require('fs');
-const parser = require('../csv2json/parser').parse;
+const parse = require('../csv2json/parser');
+const getFile = require('../utils/promisified-read-file');
 
 module.exports = function(req, res) {
-    fs.readFile('../data/cpmu.csv', (err, data) => {
-        if (err)
-            return res.status(404);
-        res.json(parser(data.toString()));
-    });
+    getFile('../data/cpmu.csv')
+        .then((data) => parse(data.toString()))
+        .then((parsed) => res.json(parsed))
+        .catch(() => res.status(404));
 };
