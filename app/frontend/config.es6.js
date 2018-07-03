@@ -8,7 +8,7 @@ function config($stateProvider, $urlRouterProvider, $locationProvider) {
       url: '/',
       template: require('./main.page.html'),
       controller: 'MainCtrl',
-      title: ''
+      title: 'Basic Reporting Portal'
     });
 }
 

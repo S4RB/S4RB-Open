@@ -1,7 +1,5 @@
-MainCtrl.$inject = ['$scope'];
+MainCtrl.$inject = [];
 
-function MainCtrl($scope) {
-  $scope.name = 'world';
-}
+function MainCtrl() {}
 
 export default MainCtrl;
