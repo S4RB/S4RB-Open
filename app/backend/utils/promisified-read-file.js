@@ -8,6 +8,5 @@ module.exports = (filePath) => {
                 return reject(err);
             resolve(data);
         });
-    })
-    
-}
+    })   
+};

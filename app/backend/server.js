@@ -13,9 +13,9 @@ const publicPath = path.resolve(__dirname, '..', 'public');
 if (!isProduction) {
   // Any requests to localhost:3000/assets is proxied
   // to webpack-dev-server
-  app.all(['/assets/*', '*.hot-update.json'], function (req, res) {
+  app.all(['/assets/*', '*.hot-update.json'], (req, res) => {
     proxy.web(req, res, {
-      target: 'http://' + host + ':3001'
+      target: `http://${host}:3001`,
     });
   });
 }
@@ -23,15 +23,15 @@ if (!isProduction) {
 app.use(express.static(publicPath));
 
 // place your handlers here
-app.use('/', require('./routes'))
+app.use('/', require('./routes/default-router'));
 
 // It is important to catch any errors from the proxy or the
 // server will crash. An example of this is connecting to the
 // server when webpack is bundling
-proxy.on('error', function(e) {
+proxy.on('error', (e) => {
   console.log('Could not connect to proxy, please try again...');
 });
 
-app.listen(port, function () {
-  console.log('Server running on port ' + port);
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
 });
