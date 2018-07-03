@@ -3,5 +3,6 @@ module.exports = {
     MONTH: 'Month',
     COMPLAINTS: 'Complaints',
     UNITS_SOLD: 'UnitsSold',
-    CMPU: 'CMPU'
+    CMPU: 'CMPU',
+    NO_VALUE: 'No Value'
 };

@@ -11,7 +11,6 @@ function calculateMapWithCMPU(parsedData) {
     return mapForCMPU(parsedData, calculateCMPU);
 }
 
-function fillMissingMonths(parsedData) {
-    const calculatedMapWithCMPU = calculateMapWithCMPU(parsedData);
+function fillMissingMonths(calculatedMapWithCMPU) {
     return fillMapOfCMPUWithMissingMonths(calculatedMapWithCMPU);
 }

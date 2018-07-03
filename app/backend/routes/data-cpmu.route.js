@@ -4,21 +4,33 @@ const promisifiedReadFile = require('../utils/promisified-read-file');
 const calculationService = require('../core/calculations.service');
 
 module.exports = {
-    getData,
-    calculateData
+    sendParsedData,
+    sendCalculatedCMPUData,
+    sendDataCMPUWithFilledMissingMonths
 };
 
-function getData(req, res) {
+function sendParsedData(req, res) {
     return readFileAndParse()
         .then((parsedData) => res.json(parsedData))
         .catch(() => res.status(404));
 }
 
-function calculateData(req, res) {
-    return readFileAndParse()
-        .then(calculationService.calculateMapWithCMPU)
+function sendCalculatedCMPUData(req, res) {
+    return getParsedDataAndCalculate()
         .then((calculatedMapWithCMPU) => res.json(calculatedMapWithCMPU))
         .catch(() => res.status(404));
+}
+
+function sendDataCMPUWithFilledMissingMonths(req, res) {
+    return getParsedDataAndCalculate()
+        .then(calculationService.fillMissingMonths)
+        .then((calculatedMapWithCMPU) => res.json(calculatedMapWithCMPU))
+        .catch(() => res.status(404));
+}
+
+function getParsedDataAndCalculate() {
+    return readFileAndParse()
+        .then(calculationService.calculateMapWithCMPU);
 }
 
 function readFileAndParse() {
