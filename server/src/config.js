@@ -1,0 +1,1 @@
+export const csvDataFilePath = './data/cpmu.csv';
