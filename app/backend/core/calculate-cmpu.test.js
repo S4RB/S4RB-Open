@@ -1,5 +1,5 @@
 const { assert } = require('chai');
-const calculateCMPU = require('./calculateCMPU');
+const { calculateCMPU } = require('./calculate-cmpu');
 
 describe('#calculateCMPU', () => {
 

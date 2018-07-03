@@ -1,6 +1,6 @@
 const sinon = require('sinon');
 const { assert } = require('chai');
-const { mapForCMPU } = require('./mapDataForCMPU');
+const { mapForCMPU } = require('./map-data-for-cmpu');
 const { MONTH, CMPU, COMPLAINTS, UNITS_SOLD } = require('../consts/names');
 
 describe('#mapForCMPU', () => {

@@ -10,14 +10,14 @@ module.exports = {
 
 function getData(req, res) {
     return readFileAndParse()
-        .then((parsed) => res.json(parsed))
+        .then((parsedData) => res.json(parsedData))
         .catch(() => res.status(404));
 }
 
 function calculateData(req, res) {
     return readFileAndParse()
         .then(calculationService.calculateMapWithCMPU)
-        .then((calculated) => res.json(calculated))
+        .then((calculatedMapWithCMPU) => res.json(calculatedMapWithCMPU))
         .catch(() => res.status(404));
 }
 
