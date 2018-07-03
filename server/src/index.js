@@ -1,10 +1,12 @@
 import express from 'express';
-import { registerAllRoutes } from './routes/routes';
+import morgan from 'morgan';
+
+import { port } from './config';
+import allRoutes from './routes/routes';
 
 const app = express();
+const logger = morgan('combined');
 
-registerAllRoutes(app);
-
-app.listen(8000, () => {
-    console.log('Server started, listening on port 8000');
-});
+allRoutes.forEach(routeConfig => app.use(routeConfig.path, routeConfig.router));
+app.use(logger);
+app.listen(port, () => process.stdout.write(`Server started, listening on port ${port}`));

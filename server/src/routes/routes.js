@@ -1,5 +1,7 @@
-import { dataRouter } from './data.route';
+import dataRouter from './data.route';
 
-export const registerAllRoutes = (app) => {
-    app.use('/data/cpmu', dataRouter);
-};
+const allRoutes = [
+  { path: '/data/cpmu', router: dataRouter },
+];
+
+export default allRoutes;
