@@ -1,6 +1,8 @@
+const { QUARTER, MONTH, COMPLAINTS, UNITS_SOLD } = require('./names');
+
 module.exports = {
-  Quarter: Number,
-  Month: Date.parse,
-  Complaints: Number,
-  UnitsSold: Number,
+  [QUARTER]: Number,
+  [MONTH]: Date.parse,
+  [COMPLAINTS]: Number,
+  [UNITS_SOLD]: Number,
 };
