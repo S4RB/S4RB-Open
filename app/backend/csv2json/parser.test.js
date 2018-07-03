@@ -1,5 +1,5 @@
+const { assert } = require('chai');
 const parse = require('./parser');
-const assert = require('chai').assert;
 
 describe('#parser', () => {
 
@@ -30,7 +30,16 @@ describe('#parser', () => {
             const expectedResult = [];
     
             const actualResult = parse(suite.testData);
-            
+
+            assert.deepEqual(expectedResult, actualResult);
+        });
+
+        it('just enters are provided', () => {
+            suite.testData = '\n\n';
+            const expectedResult = [];
+    
+            const actualResult = parse(suite.testData);
+
             assert.deepEqual(expectedResult, actualResult);
         });
 
@@ -56,6 +65,18 @@ describe('#parser', () => {
             suite.testData = `"h1","h2","h3"\n"data1","data2","data3`;
             const expectedResult = [
                 {"h1":"data1","h2":"data2","h3":"data3"}
+            ];
+    
+            const actualResult = parse(suite.testData);
+            
+            assert.deepEqual(expectedResult, actualResult);
+        });
+
+        it('should omit enters', () => {
+            suite.testData = `"h1","h2","h3"\n\n\n"data1","data2","data3"\n\n\n\n"data4","data5","data6"`;
+            const expectedResult = [
+                {"h1":"data1","h2":"data2","h3":"data3"},
+                {"h1":"data4","h2":"data5","h3":"data6"}
             ];
     
             const actualResult = parse(suite.testData);

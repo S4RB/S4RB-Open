@@ -1,6 +1,6 @@
 const calculateCMPU = require('./calculateCMPU');
-const mapDataForCMPU = require('./mapDataForCMPU');
+const { mapForCMPU } = require('./mapDataForCMPU');
 
 module.exports = {
-
+    calculateMapWithCMPU: (parsedDate) => mapForCMPU(parsedDate, calculateCMPU)
 }

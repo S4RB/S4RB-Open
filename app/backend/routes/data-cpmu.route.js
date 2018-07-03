@@ -1,6 +1,7 @@
 const parse = require('../csv2json/parser');
 const parsingSchema = require('../consts/types-schema');
 const promisifiedReadFile = require('../utils/promisified-read-file');
+const calculationService = require('../core/calculations.service');
 
 module.exports = {
     getData,
@@ -15,7 +16,7 @@ function getData(req, res) {
 
 function calculateData(req, res) {
     return readFileAndParse()
-        .then(calculate)
+        .then(calculationService.calculateMapWithCMPU)
         .then((calculated) => res.json(calculated))
         .catch(() => res.status(404));
 }
