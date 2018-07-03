@@ -22,8 +22,13 @@ function sendCalculatedCMPUData(req, res) {
 }
 
 function sendDataCMPUWithFilledMissingMonths(req, res) {
+    let filter;
+    if(req.query.agregate === 'quarter') filter = (a) => a;
+    else if (req.query.agregate === 'year') filter = (a) => a;
+    else filter = calculationService.fillMissingMonths;
+
     return getParsedDataAndCalculate()
-        .then(calculationService.fillMissingMonths)
+        .then(filter)
         .then((calculatedMapWithCMPU) => res.json(calculatedMapWithCMPU))
         .catch(() => res.status(404));
 }

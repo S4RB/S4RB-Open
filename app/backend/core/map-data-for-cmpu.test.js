@@ -35,10 +35,14 @@ describe('#mapForCMPU', () => {
         const expectedResult = [
             {
                 [MONTH]: 1,
-                [CMPU]: 1
+                [COMPLAINTS]: suite.simpleComplaintsObject,
+                [CMPU]: 1,
+                [UNITS_SOLD]: suite.simpleUnitsSoldObject
             },{
                 [MONTH]: 2,
-                [CMPU]: 1
+                [COMPLAINTS]: suite.simpleComplaintsObject,
+                [CMPU]: 1,
+                [UNITS_SOLD]: suite.simpleUnitsSoldObject
             }
         ];
 

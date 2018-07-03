@@ -1,6 +1,8 @@
+const _ = require('lodash');
 const { calculateCMPU } = require('./calculate-cmpu');
 const { mapForCMPU } = require('./map-data-for-cmpu');
 const { fillMapOfCMPUWithMissingMonths } = require('./cmpu-map-filler');
+const { MONTH, CMPU } = require('../consts/names');
 
 module.exports = {
     calculateMapWithCMPU,
@@ -12,5 +14,5 @@ function calculateMapWithCMPU(parsedData) {
 }
 
 function fillMissingMonths(calculatedMapWithCMPU) {
-    return fillMapOfCMPUWithMissingMonths(calculatedMapWithCMPU);
+    return _.map(fillMapOfCMPUWithMissingMonths(calculatedMapWithCMPU), (value) => _.pick(value, [MONTH, CMPU]));
 }

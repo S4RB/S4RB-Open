@@ -14,9 +14,17 @@ export default {
         this.$onInit = function() {
             this.state = 'LOADING';
             this.options = [{
-                id: 1,
-                label: 'ALL',
+                id: 0,
+                label: 'Months',
                 url: '/data/cpmu'
+            },{
+                id: 1,
+                label: 'Quarter',
+                url: '/data/cpmu?agregate=quarter'
+            },{
+                id: 2,
+                label: 'Year',
+                url: '/data/cpmu?agregate=year'
             }];
         };
     }],
