@@ -6,7 +6,7 @@ function parse(text, opt = {}) {
     if (!_.isString(text)) return;
     const lines = _.chain(text)
         .replace(/"/g, '')
-        .split(/\n/)
+        .split(/\r?\n|\r/)
         .tap((array) => _.remove(array, _.isEmpty))
         .value();
 

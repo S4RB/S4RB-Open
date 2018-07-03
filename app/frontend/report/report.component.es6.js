@@ -20,14 +20,5 @@ export default {
             }];
         };
     }],
-    template: `
-        <div>
-            Mode: <select ng-model="selectedOption"
-                ng-init="selectedOption = $ctrl.changeMode($ctrl.options[0])" 
-                ng-options="option.label for option in $ctrl.options" 
-                ng-change="$ctrl.changeMode(selectedOption)"></select>
-        <div>
-            {{ $ctrl.state }}
-        </div>
-    `
+    template: require('./report.component.html')
 };
