@@ -1,4 +1,4 @@
-### Aplication info
+# Aplication info
 
 Before running remember about `$ npm install`.
 Run scripts via npm scripts:
