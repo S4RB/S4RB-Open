@@ -51,12 +51,15 @@ const calculateCpmuForALl = rawCpmuData => rawCpmuData
     cpmu: calculateCpmu(monthData.Complaints, monthData.UnitsSold),
   }));
 
-export const getCpmuData = () => convertCsvFileToJson(csvDataFilePath)
+const getCpmuData = () => convertCsvFileToJson(csvDataFilePath)
   .then(cpmuData => _.sortBy(cpmuData, item => item.Month))
   .then(calculateCpmuForALl)
   .then(fillMissingMonths);
 
-export const aggregateByQuarter = cpmuData => _
+export const getCpmuDataByMonth = () => getCpmuData()
+  .then(cpmuData => cpmuData.map(i => ({ month: i.month, cpmu: i.cpmu })));
+
+const aggregateByQuarter = cpmuData => _
   .chain(cpmuData)
   .filter(item => item.cpmu)
   .groupBy(item => `${moment(item.month).year()}-${item.quarter}`)
@@ -64,10 +67,12 @@ export const aggregateByQuarter = cpmuData => _
     const complaints = _.sumBy(group, i => i.complaints);
     const unitsSold = _.sumBy(group, i => i.unitsSold);
     return {
+      year: moment(group[0].month).year(),
       quarter: group[0].quarter,
-      complaints,
-      unitsSold,
       cpmu: calculateCpmu(complaints, unitsSold),
     };
   })
   .value();
+
+export const getCpmuDataByQuarter = () => getCpmuData()
+  .then(cpmuData => aggregateByQuarter(cpmuData));

@@ -1,15 +1,13 @@
 export default class CpmuService {
-  constructor() {
-    this.cpmuData = [{
-      month: 'January 2018',
-      cpmu: 51.544,
-    }, {
-      month: 'February 2018',
-      cpmu: 13.65844,
-    }];
+  static get $inject() {
+    return ['$http'];
   }
 
-  getCpmuData() {
-    return this.cpmuData;
+  constructor($http) {
+    this.$http = $http;
+  }
+
+  getCpmuData(aggregationType) {
+    return this.$http.get(`http://localhost:8000/data/cpmu/${aggregationType || ''}`);
   }
 }

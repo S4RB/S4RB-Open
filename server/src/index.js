@@ -8,5 +8,10 @@ const app = express();
 const logger = morgan('combined');
 
 app.use(logger);
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  next();
+});
 app.use('/data/cpmu', cpmuDataRouter);
 app.listen(port, () => process.stdout.write(`Server started, listening on port ${port}`));

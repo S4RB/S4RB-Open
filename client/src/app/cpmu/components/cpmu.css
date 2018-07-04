@@ -20,3 +20,7 @@
 #cpmu table tr:last-child td {
   border-bottom: 0;
 }
+
+#cpmu table td.number {
+  text-align: right;
+}
