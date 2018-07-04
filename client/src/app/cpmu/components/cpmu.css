@@ -1,0 +1,22 @@
+#cpmu table {
+  width: 95vw;
+}
+
+#cpmu table th {
+  font-size: 1.2em;
+}
+
+#cpmu table {
+  border: 2px solid black;
+  border-collapse: collapse;
+}
+
+#cpmu table thead th,
+#cpmu table td {
+  border-bottom: 1px solid black;
+  padding: 0.4em;
+}
+
+#cpmu table tr:last-child td {
+  border-bottom: 0;
+}
