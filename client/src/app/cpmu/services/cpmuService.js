@@ -1,15 +1,13 @@
-import config from '../../../config';
-
 export default class CpmuService {
   static get $inject() {
-    return ['$http'];
+    return ['fetchService'];
   }
 
-  constructor($http) {
-    this.$http = $http;
+  constructor(fetchService) {
+    this.fetchService = fetchService;
   }
 
   getCpmuData(aggregationType) {
-    return this.$http.get(`${config.host}data/cpmu/${aggregationType || ''}`);
+    return this.fetchService.get(`data/cpmu/${aggregationType || ''}`);
   }
 }
