@@ -11,9 +11,9 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="row in [{month: 'January 2018', cpmu: 20},{month: 'February 2018', cpmu: 30}]">
-          <td>{{row.month}}</td>
-          <td>{{row.cpmu}}</td>
+        <tr ng-repeat="item in ctrl.cpmuData">
+          <td>{{item.month}}</td>
+          <td>{{item.cpmu}}</td>
         </tr>
       </tbody>
     </table>
