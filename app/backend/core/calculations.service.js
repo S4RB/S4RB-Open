@@ -24,8 +24,8 @@ function applyAgregations(agregateType) {
         return (completeMap) => trimObjects(agregateByQuarter(completeMap), [YEAR, QUARTER, CMPU]);
     else if (agregateType === 'year')
         return (completeMap) => trimObjects(agregateByYear(completeMap), [YEAR, CMPU]);
-    else
-        return (completeMap) => trimObjects(completeMap, [MONTH, CMPU]);
+    
+    return (completeMap) => trimObjects(completeMap, [MONTH, CMPU]);
 }
 
 function trimObjects(arrayOfObjects, arrayOfAlowedProperitesNames) {

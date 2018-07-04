@@ -1,6 +1,5 @@
 const dataService = require('../core/data.service');
 const calculationService = require('../core/calculations.service');
-const { MONTH, CMPU, QUARTER } = require('../consts/names');
 
 module.exports = {
     sendDataCMPUWithFilledMissingMonths
