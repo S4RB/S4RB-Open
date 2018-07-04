@@ -7,8 +7,8 @@ module.exports = {
 };
 
 /**
- * Fills up gaps in months, quarters and years,
- * this solution assmues that array is pre sorted and dates are always round to 0
+ * Fills up gaps in months, quarters and years for data standardisation,
+ * this solution assmues that array is pre sorted and dates are always round to 0.
  * @function
  * @param {array} calculatedMapWithCMPU - Map of CMPUs.
  */

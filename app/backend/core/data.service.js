@@ -1,4 +1,4 @@
-const parse = require('../csv2json/parser');
+const { parse } = require('../csv2json/parser');
 const parsingSchema = require('../consts/types-schema');
 const promisifiedReadFile = require('../utils/promisified-read-file');
 

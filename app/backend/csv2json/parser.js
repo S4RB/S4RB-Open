@@ -1,6 +1,8 @@
 const _ = require('lodash');
 
-module.exports = parse;
+module.exports = {
+    parse
+};
 
 function parse(text, opt = {}) {
     if (!_.isString(text)) return;

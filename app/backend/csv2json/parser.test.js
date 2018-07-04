@@ -1,5 +1,5 @@
 const { assert } = require('chai');
-const parse = require('./parser');
+const { parse } = require('./parser');
 
 describe('#parser', () => {
 
