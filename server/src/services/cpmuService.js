@@ -4,7 +4,7 @@ import convertCsvFileToJson from '../utils/csvToJsonConverter';
 import { csvDataFilePath } from '../config';
 import { MILLION } from '../utils/constants';
 
-const getMissingItems = (currentMonthData, nextMonthData) => {
+export const getMissingItems = (currentMonthData, nextMonthData) => {
   const missingMonths = [];
   const currentMonth = moment(currentMonthData.month).add(1, 'M');
   const nextMonth = moment(nextMonthData.month);
@@ -40,9 +40,9 @@ const fillMissingMonths = cpmuData => _
   .flatten()
   .value();
 
-const calculateCpmu = (complaints, unitsSold) => complaints / unitsSold * MILLION;
+export const calculateCpmu = (complaints, unitsSold) => complaints / unitsSold * MILLION;
 
-const calculateCpmuForALl = rawCpmuData => rawCpmuData
+const calculateCpmuForAll = rawCpmuData => rawCpmuData
   .map(monthData => ({
     quarter: Number(monthData.Quarter),
     month: moment.utc(monthData.Month).valueOf(),
@@ -53,13 +53,13 @@ const calculateCpmuForALl = rawCpmuData => rawCpmuData
 
 const getCpmuData = () => convertCsvFileToJson(csvDataFilePath)
   .then(cpmuData => _.sortBy(cpmuData, item => item.Month))
-  .then(calculateCpmuForALl)
+  .then(calculateCpmuForAll)
   .then(fillMissingMonths);
 
 export const getCpmuDataByMonth = () => getCpmuData()
   .then(cpmuData => cpmuData.map(i => ({ month: i.month, cpmu: i.cpmu })));
 
-const aggregateByQuarter = cpmuData => _
+export const aggregateByQuarter = cpmuData => _
   .chain(cpmuData)
   .filter(item => item.cpmu)
   .groupBy(item => `${moment(item.month).year()}-${item.quarter}`)
