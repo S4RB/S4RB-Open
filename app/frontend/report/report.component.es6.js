@@ -1,3 +1,5 @@
+require('./report.component.less');
+
 export default {
     bindings: {
         mode: '=',

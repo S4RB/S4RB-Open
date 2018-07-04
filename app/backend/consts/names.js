@@ -4,5 +4,6 @@ module.exports = {
     COMPLAINTS: 'Complaints',
     UNITS_SOLD: 'UnitsSold',
     CMPU: 'CMPU',
-    NO_VALUE: 'No Value'
+    NO_VALUE: 'No Value',
+    YEAR: 'Year'
 };

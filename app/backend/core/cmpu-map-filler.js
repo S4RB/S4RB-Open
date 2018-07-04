@@ -1,33 +1,40 @@
 const _ = require('lodash');
 
-const { MONTH, CMPU, NO_VALUE } = require('../consts/names');
+const { MONTH, CMPU, NO_VALUE, QUARTER, YEAR } = require('../consts/names');
 
 module.exports = {
-    fillMapOfCMPUWithMissingMonths
+    fillMapOfCMPUWithMissingData
 };
 
 /**
- * Fills up gaps in months of month/cmpu array,
+ * Fills up gaps in months, quarters and years,
  * this solution assmues that array is pre sorted and dates are always round to 0
  * @function
  * @param {array} calculatedMapWithCMPU - Map of CMPUs.
  */
 
-function fillMapOfCMPUWithMissingMonths(calculatedMapWithCMPU) {
+function fillMapOfCMPUWithMissingData(calculatedMapWithCMPU) {
     return _.transform(calculatedMapWithCMPU, (accumulator, element, index, iterable) => {
+        const elementDate = new Date(element[MONTH]);
+        element[YEAR] = elementDate.getFullYear();
         accumulator.push(element);
 
         const nextElement = iterable[index + 1];
         if(_.isEmpty(nextElement)) return;
 
-        const elementDate = new Date(element[MONTH]);
         const nextElementDate = new Date(nextElement[MONTH]);
 
-        while (elementDate.setMonth(elementDate.getMonth() + 1) < nextElementDate.getTime()) {
+        elementDate.setMonth(elementDate.getMonth() + 1);
+
+        while (elementDate.getTime() < nextElementDate.getTime()) {
             accumulator.push({
                 [MONTH]: Date.parse(elementDate),
+                [QUARTER]: Math.ceil((elementDate.getMonth() + 1) / 3),
+                [YEAR]: elementDate.getFullYear(),
                 [CMPU]: NO_VALUE
             });
+
+            elementDate.setMonth(elementDate.getMonth() + 1);
         };
 
     }, []);

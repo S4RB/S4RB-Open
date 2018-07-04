@@ -1,17 +1,23 @@
-<div>
-    <label for="filter-type">Mode:</label>
-    <select id="filter-type"
-        ng-model="selectedOption"
-        ng-init="selectedOption = $ctrl.changeMode($ctrl.options[0])" 
-        ng-options="option.label for option in $ctrl.options" 
-        ng-change="$ctrl.changeMode(selectedOption)"></select>
-<div>
-    <table>
-        <tr>
-            <td ng-repeat="(stateKey, value) in $ctrl.state[0]">{{ stateKey }}</td>
-        </tr>
-        <tr ng-repeat="data in $ctrl.state">
-            <td ng-repeat="(stateKey, value) in data">{{ stateKey === 'Month' ? (value | date:'MMMM yyyy') : value }}</td>
-        </tr>
-    </table>
+<div class="reporting">
+    <div class="about-view">
+        Complaints per million units
+        <div class="display-options">
+            <label for="filter-type">Mode:</label>
+            <select id="filter-type"
+                ng-model="selectedOption"
+                ng-init="selectedOption = $ctrl.changeMode($ctrl.options[0])" 
+                ng-options="option.label for option in $ctrl.options track by option.id" 
+                ng-change="$ctrl.changeMode(selectedOption)"></select>
+        </div>
+    </div>
+    <div class="report-table">
+        <table>
+            <tr class='table-headers'>
+                <td ng-repeat="(stateKey, value) in $ctrl.state[0]">{{ stateKey }}</td>
+            </tr>
+            <tr ng-repeat="data in $ctrl.state">
+                <td ng-repeat="(stateKey, value) in data">{{ stateKey === 'Month' ? (value | date:'MMMM yyyy') : value }}</td>
+            </tr>
+        </table>
+    </div>
 </div>
