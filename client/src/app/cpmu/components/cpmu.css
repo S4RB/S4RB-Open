@@ -1,5 +1,5 @@
 #cpmu table {
-  width: 95vw;
+  width: 100%;
 }
 
 #cpmu table th {
@@ -15,12 +15,14 @@
 #cpmu table td {
   border-bottom: 1px solid black;
   padding: 0.4em;
+  text-align: center;
 }
 
 #cpmu table tr:last-child td {
   border-bottom: 0;
 }
 
-#cpmu table td.number {
-  text-align: right;
+#cpmu .aggregation h1 {
+  margin: 0;
+  font-size: 1.2em;
 }

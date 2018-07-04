@@ -3,17 +3,42 @@
     <h1>Complaints per million units</h1>
   </header>
   <main>
+    <div class="aggregation">
+      <p>
+        <h1>Aggregation:</h1>
+        <br />
+        <input
+          type="radio"
+          name="aggregation"
+          value="month"
+          ng-model="ctrl.aggregationType"
+          ng-change="ctrl.getData()"
+        /> By month
+        <input
+          type="radio"
+          name="aggregation"
+          value="quarter"
+          ng-model="ctrl.aggregationType"
+          ng-change="ctrl.getData()"
+        /> By quarter
+      </p>
+    </div>
     <table>
       <thead>
         <tr>
-          <th>Month / quarter</th>
+          <th>{{ctrl.aggregationLabel}}</th>
           <th>CPMU</th>
         </tr>
       </thead>
       <tbody>
         <tr ng-repeat="item in ctrl.cpmuData">
-          <td>{{item.month}}</td>
-          <td class="number">{{item.cpmu}}</td>
+          <td ng-if="!item.month">
+            {{'Q' + item.quarter + ' ' + item.year}}
+          </td>
+          <td ng-if="item.month">
+            {{item.month | date : "yyyy-MM"}}
+          </td>
+          <td>{{(item.cpmu | number : 4) || 'No value'}}</td>
         </tr>
       </tbody>
     </table>

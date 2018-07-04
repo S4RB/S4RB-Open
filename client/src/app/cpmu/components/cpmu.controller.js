@@ -6,16 +6,23 @@ export default class CpmuController {
   constructor($scope, cpmuService) {
     this.$scope = $scope;
     this.cpmuService = cpmuService;
+    this.aggregationType = 'month';
 
     this.cpmuData = [];
     this.$onInit = () => this.getData();
+
+    this.getData = this.getData.bind(this);
   }
 
-  getData(aggregationType) {
+  getData() {
     this.cpmuService
-      .getCpmuData(aggregationType)
+      .getCpmuData(this.aggregationType)
       .then((response) => {
         this.cpmuData = response.data;
       });
+  }
+
+  get aggregationLabel() {
+    return this.aggregationType === 'quarter' ? 'Quarter' : 'Month';
   }
 }
