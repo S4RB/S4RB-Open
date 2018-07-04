@@ -6,11 +6,8 @@ import uiRouter from 'angular-ui-router';
 
 import MainCtrl from './main.ctrl.es6.js';
 import appConfig from './config.es6.js';
-import dataService from './data.service.es6.js';
-import reportComponent from './report/report.component.es6.js';
+import reportModule from './report/report.module.es6';
 
-angular.module('app', [uiRouter])
-  .service('dataService', dataService)
+angular.module('app', [uiRouter, reportModule])
   .controller('MainCtrl', MainCtrl)
-  .component('reportComponent', reportComponent)
   .config(appConfig);

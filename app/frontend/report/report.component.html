@@ -4,18 +4,18 @@
         <div class="display-options">
             <label for="filter-type">Mode:</label>
             <select id="filter-type"
-                ng-model="selectedOption"
-                ng-init="selectedOption = $ctrl.changeMode($ctrl.options[0])" 
-                ng-options="option.label for option in $ctrl.options track by option.id" 
-                ng-change="$ctrl.changeMode(selectedOption)"></select>
+                ng-model="$ctrl.selectedOption"
+                ng-options="option.label for option in $ctrl.options track by option.id"
+                ng-change="$ctrl.changeMode($ctrl.selectedOption)"></select>
         </div>
     </div>
     <div class="report-table">
-        <table>
+        <spinner-component ng-if="$ctrl.loading"></spinner-component>
+        <table ng-if="!$ctrl.loading">
             <tr class='table-headers'>
-                <td ng-repeat="(stateKey, value) in $ctrl.state[0]">{{ stateKey }}</td>
+                <td ng-repeat="(stateKey, value) in $ctrl.tableData[0]">{{ stateKey }}</td>
             </tr>
-            <tr ng-repeat="data in $ctrl.state">
+            <tr ng-repeat="data in $ctrl.tableData">
                 <td ng-repeat="(stateKey, value) in data">{{ stateKey === 'Month' ? (value | date:'MMMM yyyy') : value }}</td>
             </tr>
         </table>
