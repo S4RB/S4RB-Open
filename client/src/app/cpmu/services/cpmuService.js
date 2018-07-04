@@ -1,3 +1,5 @@
+import config from '../../../config';
+
 export default class CpmuService {
   static get $inject() {
     return ['$http'];
@@ -8,6 +10,6 @@ export default class CpmuService {
   }
 
   getCpmuData(aggregationType) {
-    return this.$http.get(`http://localhost:8000/data/cpmu/${aggregationType || ''}`);
+    return this.$http.get(`${config.host}data/cpmu/${aggregationType || ''}`);
   }
 }
