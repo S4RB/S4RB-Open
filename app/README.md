@@ -1,3 +1,10 @@
+### Aplication info
+
+Before running remember about `$ npm install`.
+Run scripts via npm scripts:
+ * `$ npm run start` - run in developer mode, for production env scroll down to read about boilerplate configuration.
+ * `$ npm run test` - run unit tests.
+
 # angular-express-webpack-boilerplate
 
 A comprehensive boilerplate for express+angular application that uses webpack. It works in both production and development modes and provides automatic rebundling and restaring while developing.
