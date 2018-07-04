@@ -1,0 +1,21 @@
+<div id="cpmu">
+  <header>
+    <h1>Complaints per million units</h1>
+  </header>
+  <main>
+    <table>
+      <thead>
+        <tr>
+          <th>Month / quarter</th>
+          <th>CPMU</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="row in [{month: 'January 2018', cpmu: 20},{month: 'February 2018', cpmu: 30}]">
+          <td>{{row.month}}</td>
+          <td>{{row.cpmu}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </main>
+</div>
