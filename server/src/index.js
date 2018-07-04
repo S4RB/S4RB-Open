@@ -14,4 +14,5 @@ app.use((req, res, next) => {
   next();
 });
 app.use('/data/cpmu', cpmuDataRouter);
+app.use('/', express.static('dist/public'));
 app.listen(port, () => process.stdout.write(`Server started, listening on port ${port}`));
