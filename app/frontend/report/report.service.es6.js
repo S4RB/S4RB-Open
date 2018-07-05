@@ -1,8 +1,8 @@
-reportService.$inject = ['$location', 'dataService', 'reportConsts'];
+reportService.$inject = ['dataService', 'reportConsts'];
 
 export default reportService;
 
-function reportService($location, dataService, reportConsts) {
+function reportService(dataService, reportConsts) {
     return {
         changeMode,
         getOptions
@@ -13,7 +13,6 @@ function reportService($location, dataService, reportConsts) {
     }
 
     function changeMode(option) {
-        $location.path(option.url);
         return dataService.loadDataFromUrl(option.url);
     }
 }
