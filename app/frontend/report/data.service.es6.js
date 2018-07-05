@@ -1,10 +1,10 @@
-dataService.$inject = ['$http', '$q'];
+dataService.$inject = ['$http'];
 
-function dataService($http, $q) {
+function dataService($http) {
     return {
         loadDataFromUrl: function(url) {
             return $http.get(url)
-                .then(function(response){ return response.data; });
+                .then((response) => response.data);
         }
     };
 };

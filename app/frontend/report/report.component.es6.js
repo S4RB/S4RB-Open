@@ -10,7 +10,7 @@ export default {
             $ctrl.changeMode(fistOption);
         };
 
-        function changeMode(option) {
+        function changeMode(option = $ctrl.selectedOption) {
             $ctrl.loading = true;
 
             return reportService.changeMode(option)

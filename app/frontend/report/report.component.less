@@ -1,15 +1,21 @@
 .reporting {
     padding: 2em 3em;
     font-family: sans-serif;
+    display: flex;  
+    flex-flow: row wrap;
+
+    & > * {
+        flex: 1 100%;
+    }
 
     .about-view {
-        font-size: 1.3em;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        font-size: 1.6em;
         font-weight: bold;
         padding: 0 0 0.3em 0;
-
-        .display-options {
-            float: right;
-        }
+        flex-wrap: wrap;
     }
 
     .report-table {

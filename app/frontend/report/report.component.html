@@ -1,12 +1,13 @@
 <div class="reporting">
     <div class="about-view">
-        Complaints per million units
+        <about-view>Complaints per million units</about-view>
         <div class="display-options">
             <label for="filter-type">Mode:</label>
             <select id="filter-type"
                 ng-model="$ctrl.selectedOption"
                 ng-options="option.label for option in $ctrl.options track by option.id"
                 ng-change="$ctrl.changeMode($ctrl.selectedOption)"></select>
+            <reload-component change-mode="$ctrl.changeMode"></reload-component>
         </div>
     </div>
     <div class="report-table">
