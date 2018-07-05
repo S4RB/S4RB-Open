@@ -4,8 +4,8 @@
   "authors": "Krzysztof Kogut",
   "version": "1.0.0",
   "scripts": {
-    "build-server": "npm --prefix ./server install && npm --prefix server run build",
-    "build-client": "npm --prefix ./client install && npm --prefix client run build",
+    "build-server": "npm --prefix ./server install && npm --prefix ./server run build",
+    "build-client": "npm --prefix ./client install && npm --prefix ./client run build",
     "copy-client-output": "ncp ./client/dist/ ./server/dist/public",
     "build": "npm run build-server && npm run build-client && npm run copy-client-output"
   },
