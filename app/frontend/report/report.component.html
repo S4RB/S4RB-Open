@@ -1,0 +1,24 @@
+<div class="reporting">
+    <div class="about-view">
+        <about-view>Complaints per million units</about-view>
+        <div class="display-options">
+            <label for="filter-type">Mode:</label>
+            <select id="filter-type"
+                ng-model="$ctrl.selectedOption"
+                ng-options="option.label for option in $ctrl.options track by option.id"
+                ng-change="$ctrl.changeMode($ctrl.selectedOption)"></select>
+            <reload-component change-mode="$ctrl.changeMode"></reload-component>
+        </div>
+    </div>
+    <div class="report-table">
+        <spinner-component ng-if="$ctrl.loading"></spinner-component>
+        <table ng-if="!$ctrl.loading">
+            <tr class='table-headers'>
+                <td ng-repeat="(stateKey, value) in $ctrl.tableData[0]">{{ stateKey }}</td>
+            </tr>
+            <tr ng-repeat="data in $ctrl.tableData">
+                <td ng-repeat="(stateKey, value) in data">{{ stateKey === 'Month' ? (value | date:'MMMM yyyy') : value }}</td>
+            </tr>
+        </table>
+    </div>
+</div>
