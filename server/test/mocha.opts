@@ -1,0 +1,5 @@
+src/**/*.spec.js
+--require ./test/requires.js
+--recursive
+--bail
+--reporter spec
